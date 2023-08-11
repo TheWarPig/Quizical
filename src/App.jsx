@@ -9,6 +9,7 @@ export default function App() {
 const [questions, setQuestions] = useState([])
 const [renderTimes, setRenderTimes] = useState(0)
 const dataFetchedRef = useRef(false)
+const [isPlayed, setIsPlayed] = useState(false)
 console.log(questions)
 const questionsElements = questions.map(question => {
 
@@ -97,24 +98,29 @@ setQuestions(newQustions)
 
 function finish(){
   
-  let newArray = questions
-  for (let i = 0; i < newArray.length; i++) {
-    for(let k = 0; k < newArray[i].allAnswers.length; k++) {
-      if (newArray[i].allAnswers[k].value === newArray[i].answer){
-        newArray[i].allAnswers[k].isCorrect = true
-        newArray[i].allAnswers[k].isHeld = false
-      }
-      if (newArray[i].allAnswers[k].isHeld === true && newArray[i].allAnswers[k].value != newArray[i].answer ){
-        newArray[i].allAnswers[k].isIncorrect = true
-      }else if (newArray[i].allAnswers[k].value != newArray[i].answer){
-        newArray[i].allAnswers[k].isNotChosen = true
+  if(isPlayed === false){
+    let newArray = questions
+    for (let i = 0; i < newArray.length; i++) {
+      for(let k = 0; k < newArray[i].allAnswers.length; k++) {
+        if (newArray[i].allAnswers[k].value === newArray[i].answer){
+          newArray[i].allAnswers[k].isCorrect = true
+          newArray[i].allAnswers[k].isHeld = false
+        }
+        if (newArray[i].allAnswers[k].isHeld === true && newArray[i].allAnswers[k].value != newArray[i].answer ){
+          newArray[i].allAnswers[k].isIncorrect = true
+        }else if (newArray[i].allAnswers[k].value != newArray[i].answer){
+          newArray[i].allAnswers[k].isNotChosen = true
+        }
       }
     }
+  setIsPlayed(true)
+  setRenderTimes(old => old + 1)
+  setQuestions(newArray)
+
+  }else {
+    setIsPlayed(false)
+    getQuestions()
   }
-setRenderTimes(old => old + 1)
-setQuestions(newArray)
-
-
 }
 
 
@@ -123,7 +129,9 @@ setQuestions(newArray)
     <main>
 
       {questionsElements}
-      <button className="finish_btn" onClick={finish}>Finish</button>
+      <div className="finish_container">
+      <button className="finish_btn" onClick={finish}>{isPlayed ? "Play Again" : "Check Answers"}</button>
+      </div>
     </main>
     
   );
