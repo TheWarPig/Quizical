@@ -1,0 +1,50 @@
+.question{
+    font-family: 'Karla';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    color: #293264;
+}
+
+.answers-container{
+    display: flex;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.answer{
+    width: fit-content;
+    padding: 4px 19px;
+    border: 0.8px solid #dad1d1;
+    background-color: #ffffff;
+    border-radius: 10px;
+    font-family: 'Inter';
+    font-weight: 500;
+    font-size: 15px;
+    text-align: center;
+    color: #293264;
+}
+
+.answer:hover{
+    transition: 0.2s ease;
+    border: 1px solid #4D5B9E;
+    /* background-color: #ecf0ff; */
+    cursor: pointer;
+}
+
+.correct{
+    background-color: #94D7A2;
+}
+
+.held{
+    background-color: #D6DBF5;
+}
+
+.incorrect{
+    background-color: #F8BCBC;
+    opacity: 0.5;
+}
+
+.notChosen{
+    opacity: 0.5;
+}
