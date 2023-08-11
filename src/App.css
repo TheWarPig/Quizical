@@ -15,6 +15,7 @@ main{
 .finish_container{
   display: flex;
   justify-content: center;
+  gap: 30px;
 }
 
 .finish_btn{
@@ -28,4 +29,13 @@ main{
   box-shadow: none;
   border: none;
 
+}
+
+.notVisible{
+  display: none;
+}
+.isVisible{
+  color: #293264;
+  display: block;
+  font-weight: bold;
 }

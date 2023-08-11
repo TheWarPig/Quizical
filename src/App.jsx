@@ -11,6 +11,9 @@ const [renderTimes, setRenderTimes] = useState(0)
 const dataFetchedRef = useRef(false)
 const [isPlayed, setIsPlayed] = useState(false)
 console.log(questions)
+
+const [correctAnswers, setCorrectAnswers] = useState(0)
+
 const questionsElements = questions.map(question => {
 
   return(
@@ -104,6 +107,9 @@ function finish(){
       for(let k = 0; k < newArray[i].allAnswers.length; k++) {
         if (newArray[i].allAnswers[k].value === newArray[i].answer){
           newArray[i].allAnswers[k].isCorrect = true
+          if(newArray[i].allAnswers[k].isHeld === true){
+            setCorrectAnswers(old => old + 1)
+          }
           newArray[i].allAnswers[k].isHeld = false
         }
         if (newArray[i].allAnswers[k].isHeld === true && newArray[i].allAnswers[k].value != newArray[i].answer ){
@@ -114,11 +120,14 @@ function finish(){
       }
     }
   setIsPlayed(true)
+  document.getElementById("scoreText").className = "isVisible"
   setRenderTimes(old => old + 1)
   setQuestions(newArray)
 
   }else {
     setIsPlayed(false)
+    setCorrectAnswers(0)
+    document.getElementById("scoreText").className = "notVisible"
     getQuestions()
   }
 }
@@ -130,7 +139,8 @@ function finish(){
 
       {questionsElements}
       <div className="finish_container">
-      <button className="finish_btn" onClick={finish}>{isPlayed ? "Play Again" : "Check Answers"}</button>
+        <h4 id="scoreText" className="notVisible">You Scored {correctAnswers}/5 correct answers</h4>
+        <button className="finish_btn" onClick={finish}>{isPlayed ? "Play Again" : "Check Answers"}</button>
       </div>
     </main>
     
