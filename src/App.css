@@ -12,9 +12,7 @@ main{
 }
 
 .container{
-margin-right: 1rem;
-margin-left: 1rem;
-margin-bottom: 1rem;
+margin: 1rem;
 }
 
 
@@ -98,6 +96,13 @@ margin-bottom: 1rem;
     color: #293264;
 }
 
+.input:hover{
+  transition: 0.2s ease;
+  border: 0.8px solid #4D5B9E;
+  /* background-color: #ecf0ff; */
+  cursor: pointer;
+}
+
 .input > *{
   text-align: center;
 
@@ -108,3 +113,11 @@ margin-bottom: 1rem;
   margin-bottom: 5px;
   margin-top: 0;
 }
+
+svg{
+  position: relative;
+  height: 30px;
+  width: 30px;
+  transition: 0.2s ease;
+}
+

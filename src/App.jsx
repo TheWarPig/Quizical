@@ -2,6 +2,7 @@ import { useState,useEffect,useRef, forceUpdate } from 'react'
 import Question from './components/Question';
 import { nanoid } from 'nanoid'
 import './App.css';
+import { FiMenu } from "react-icons/fi";
 
 export default function App() {
 
@@ -193,6 +194,17 @@ function finish(){
   }
 }
 
+function returnMenu(){
+  setGameStart(false)
+  setIsPlayed(false)
+  dataFetchedRef.current = false
+  // setIsAllAnswersHeld(false)
+  setCorrectAnswers(0)
+  setQuestions([])
+  setApiData({numPick: "5", diffPick: "", catPick: ""})
+  setRenderTimes(old => old + 1)
+}
+
 
   return (
 
@@ -202,6 +214,7 @@ function finish(){
         isGameStart
           ?
           <>
+            <FiMenu onClick={returnMenu}/>
             <div>
               {questionsElements}
             </div>
