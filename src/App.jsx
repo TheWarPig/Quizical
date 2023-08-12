@@ -11,6 +11,7 @@ const [renderTimes, setRenderTimes] = useState(0)
 const dataFetchedRef = useRef(false)
 const [isPlayed, setIsPlayed] = useState(false)
 console.log(questions)
+const [isAllAnswersHeld, setIsAllAnswersHeld] = useState(false)
 
 const [correctAnswers, setCorrectAnswers] = useState(0)
 
@@ -40,6 +41,7 @@ function holdAnswer(id, question){
     for(let k=0 ; k<newArray[i].allAnswers.length ; k++){
       if (newArray[i].allAnswers[k].id === id){
         newArray[i].allAnswers[k] = {...newArray[i].allAnswers[k], isHeld: !newArray[i].allAnswers[k].isHeld}
+        newArray[i].isAnswerHeld = true
       }
       if (newArray[i].allAnswers[k].question === question && 
         newArray[i].allAnswers[k].id != id){
@@ -89,7 +91,8 @@ function getQuestions(){
       id: nanoid(),
       question: question.question,
       answer: question.correct_answer,
-      allAnswers: allAnswers
+      allAnswers: allAnswers,
+      isAnswerHeld: false
       
     }
 })
@@ -103,28 +106,41 @@ function finish(){
   
   if(isPlayed === false){
     let newArray = questions
+    let numAnswersHeld = 0
     for (let i = 0; i < newArray.length; i++) {
-      for(let k = 0; k < newArray[i].allAnswers.length; k++) {
-        if (newArray[i].allAnswers[k].value === newArray[i].answer){
-          newArray[i].allAnswers[k].isCorrect = true
-          if(newArray[i].allAnswers[k].isHeld === true){
-            setCorrectAnswers(old => old + 1)
-          }
-          newArray[i].allAnswers[k].isHeld = false
-        }
-        if (newArray[i].allAnswers[k].isHeld === true && newArray[i].allAnswers[k].value != newArray[i].answer ){
-          newArray[i].allAnswers[k].isIncorrect = true
-        }else if (newArray[i].allAnswers[k].value != newArray[i].answer){
-          newArray[i].allAnswers[k].isNotChosen = true
-        }
+      if(newArray[i].isAnswerHeld === true){
+        numAnswersHeld ++
       }
     }
+    if(numAnswersHeld ===5){
+      for (let i = 0; i < newArray.length; i++) {
+        for(let k = 0; k < newArray[i].allAnswers.length; k++) {
+          if (newArray[i].allAnswers[k].value === newArray[i].answer){
+            newArray[i].allAnswers[k].isCorrect = true
+            if(newArray[i].allAnswers[k].isHeld === true){
+              setCorrectAnswers(old => old + 1)
+            }
+            newArray[i].allAnswers[k].isHeld = false
+          }
+          if (newArray[i].allAnswers[k].isHeld === true && newArray[i].allAnswers[k].value != newArray[i].answer ){
+            newArray[i].allAnswers[k].isIncorrect = true
+          }else if (newArray[i].allAnswers[k].value != newArray[i].answer){
+            newArray[i].allAnswers[k].isNotChosen = true
+          }
+        }
+      }
+  setIsAllAnswersHeld(true)  
   setIsPlayed(true)
   document.getElementById("scoreText").className = "isVisible"
   setRenderTimes(old => old + 1)
   setQuestions(newArray)
-
+    }else{
+      setIsAllAnswersHeld(false)
+      document.getElementById("scoreText").className = "isVisible"
+      setRenderTimes(old => old + 1)
+    }
   }else {
+    setIsAllAnswersHeld(false)
     setIsPlayed(false)
     setCorrectAnswers(0)
     document.getElementById("scoreText").className = "notVisible"
@@ -150,7 +166,7 @@ function finish(){
               id="scoreText"
               className="notVisible"
               >
-                You Scored {correctAnswers}/5 correct answers
+                {isAllAnswersHeld ? `You Scored ${correctAnswers}/5 correct answers` : `Please choose all answers`}
             </h4>
             <button
               className="finish_btn"
