@@ -27,7 +27,7 @@
 
 .answer:hover{
     transition: 0.2s ease;
-    border: 1px solid #4D5B9E;
+    border: 0.8px solid #4D5B9E;
     /* background-color: #ecf0ff; */
     cursor: pointer;
 }
