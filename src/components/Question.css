@@ -8,6 +8,7 @@
 
 .answers-container{
     display: flex;
+    flex-direction: column;
     gap: 12px;
     margin-bottom: 15px;
 }
@@ -56,6 +57,7 @@
     .answer{
         font-size: 9px;
     }
+    
 
 }
 @media screen and (min-width: 480px) {
@@ -73,6 +75,9 @@
     }
     .answer{
         font-size: 12px;
+    }
+    .answers-container{
+        flex-direction: row;
     }
 }
 @media screen and (min-width: 1024px) {
