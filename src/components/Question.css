@@ -2,7 +2,7 @@
     font-family: 'Karla';
     font-style: normal;
     font-weight: 700;
-    font-size: 16px;
+    font-size: 20px;
     color: #293264;
 }
 
@@ -21,7 +21,7 @@
     border-radius: 10px;
     font-family: 'Inter';
     font-weight: 500;
-    font-size: 10.24px;
+    font-size: 12px;
     text-align: center;
     color: #293264;
 }
@@ -50,46 +50,11 @@
     opacity: 0.5;
 }
 
-/* @media screen and (min-width: 320px) {
-    .question{
-        font-size: 18px;
-    }
-    .answer{
-        font-size: 12px;
-    }
-    
 
-} */
-@media screen and (min-width: 480px) {
-    .question{
-        font-size: 18px;
-    }
-    .answer{
-        font-size: 12px;
-    }
-  
-}
 @media screen and (min-width: 768px) {
-    .question{
-        font-size: 18px;
-    }
-    .answer{
-        font-size: 12px;
-    }
+    
     .answers-container{
         flex-direction: row;
     }
 }
-@media screen and (min-width: 1024px) {
-    .question{
-        font-size: 20px;
-    }
-    .answer{
-        font-size: 14px;
-    }
-  
-}
-@media screen and (min-width: 1280px) {
 
-  
-}
