@@ -1,5 +1,6 @@
 * {
   box-sizing: border-box;
+  font-family: karla,sans-serif;
 }
 
 main{
@@ -28,6 +29,7 @@ main{
   color: #F5F7FB;
   box-shadow: none;
   border: none;
+  font-family: 'Inter';
 
 }
 
@@ -38,4 +40,35 @@ main{
   color: #293264;
   display: block;
   font-weight: bold;
+  font-family: 'Inter';
+}
+
+.frontPage{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.gameHeader{
+  font-family: 'Karla';
+  color: #293264;
+  font-weight: bold;
+  margin-bottom: 7px;
+}
+
+.codedBy{
+  color: #293264;
+  font-family: 'Inter';
+  font-weight: 100;
+}
+
+.startQuizBtn{
+  width: 193px;
+  height: 52px;
+  background: #4D5B9E;
+  border-radius: 15px;
+  color: #F5F7FB;
+  font-family: 'Inter';
+  border: none;
+  font-weight: 400;
 }

@@ -5,7 +5,7 @@ import './App.css';
 
 export default function App() {
 
-
+const [isGameStart, setGameStart] = useState(false)
 const [questions, setQuestions] = useState([])
 const [renderTimes, setRenderTimes] = useState(0)
 const dataFetchedRef = useRef(false)
@@ -136,12 +136,36 @@ function finish(){
   return (
 
     <main>
-
-      {questionsElements}
-      <div className="finish_container">
-        <h4 id="scoreText" className="notVisible">You Scored {correctAnswers}/5 correct answers</h4>
-        <button className="finish_btn" onClick={finish}>{isPlayed ? "Play Again" : "Check Answers"}</button>
-      </div>
+      {
+        isGameStart
+          ?
+          <>
+            <div>
+              {questionsElements}
+            </div>
+          
+          <div className="finish_container">
+            <h4
+              id="scoreText"
+              className="notVisible"
+              >
+                You Scored {correctAnswers}/5 correct answers
+            </h4>
+            <button
+              className="finish_btn"
+              onClick={finish}
+              >
+                {isPlayed ? "Play Again" : "Check Answers"}
+            </button>
+          </div>
+          </>
+          :
+          <div className="frontPage">
+          <h1 className="gameHeader">Quizical</h1>
+          <h4 className="codedBy">Coded by Ido Strassberg</h4>
+          <button className="startQuizBtn" onClick={() => setGameStart(true)}>Start quiz</button>
+          </div>
+      }
     </main>
     
   );
