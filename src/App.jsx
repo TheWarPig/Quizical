@@ -136,6 +136,7 @@ function finish(){
   return (
 
     <main>
+      <div className="container">
       {
         isGameStart
           ?
@@ -166,7 +167,9 @@ function finish(){
           <button className="startQuizBtn" onClick={() => setGameStart(true)}>Start quiz</button>
           </div>
       }
+      </div>
     </main>
+    
     
   );
 }
