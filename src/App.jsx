@@ -29,6 +29,35 @@ function handleChange(event) {
   })
 }
 
+function handleChangeNum(event) {
+  setRenderTimes(old => old + 1)
+  setApiData(prevApiData => {
+    if(event.target.value != ""){
+      if(parseInt(event.target.value) < parseInt(event.target.min)){
+        return {
+          ...prevApiData,
+          [event.target.name]: event.target.min
+        }
+      }
+      if(parseInt(event.target.value) > parseInt(event.target.max)){
+        return {
+          ...prevApiData,
+          [event.target.name]: event.target.max
+        }
+      }
+    }
+    return{
+      ...prevApiData,
+          [event.target.name]: event.target.value
+    }
+    
+  })
+  
+}
+
+
+
+
 const questionsElements = questions.map(question => {
 
   return(
@@ -148,6 +177,14 @@ setQuestions(newQustions)
 
 }
 
+function scrollToTop(){
+  window.scrollTo({
+    top: 0,
+    left: 0,
+    behavior: "smooth"
+  }
+)}
+
 function finish(){
   
   if(isPlayed === false){
@@ -191,6 +228,7 @@ function finish(){
     setCorrectAnswers(0)
     document.getElementById("scoreText").className = "notVisible"
     getQuestions()
+    scrollToTop()
   }
 }
 
@@ -198,7 +236,6 @@ function returnMenu(){
   setGameStart(false)
   setIsPlayed(false)
   dataFetchedRef.current = false
-  // setIsAllAnswersHeld(false)
   setCorrectAnswers(0)
   setQuestions([])
   setApiData({numPick: "5", diffPick: "", catPick: ""})
@@ -252,7 +289,7 @@ function returnMenu(){
               {catEllements}
             </select>
             <h5 className='lable'>Choose the number of questions</h5>
-            <input className="input" type="number" name="numPick" value={apiData.numPick} onChange={handleChange}></input>
+            <input className="input" type="number" name="numPick" min="1" max="50" value={apiData.numPick} onChange={handleChangeNum}></input>
           </div>
           <button className="startQuizBtn" onClick={() => {setGameStart(true);setRenderTimes(old => old + 1)}}>Start quiz</button>
           </div>
