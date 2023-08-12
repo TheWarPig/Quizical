@@ -50,16 +50,16 @@
     opacity: 0.5;
 }
 
-@media screen and (min-width: 320px) {
+/* @media screen and (min-width: 320px) {
     .question{
-        font-size: 14px;
+        font-size: 18px;
     }
     .answer{
-        font-size: 10px;
+        font-size: 12px;
     }
     
 
-}
+} */
 @media screen and (min-width: 480px) {
     .question{
         font-size: 18px;
