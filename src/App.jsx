@@ -12,8 +12,21 @@ const dataFetchedRef = useRef(false)
 const [isPlayed, setIsPlayed] = useState(false)
 console.log(questions)
 const [isAllAnswersHeld, setIsAllAnswersHeld] = useState(false)
-
 const [correctAnswers, setCorrectAnswers] = useState(0)
+const [apiData, setApiData] = useState(
+  {numPick: "5", diffPick: "", catPick: ""}
+)
+const [categoryList, setCategoryList] = useState([])
+
+function handleChange(event) {
+  setRenderTimes(old => old + 1)
+  setApiData(prevApiData => {
+    return {
+      ...prevApiData,
+      [event.target.name]: event.target.value
+    }
+  })
+}
 
 const questionsElements = questions.map(question => {
 
@@ -31,6 +44,12 @@ const questionsElements = questions.map(question => {
   />
 )
 
+})
+
+const catEllements = categoryList.map(cat => {
+  return(
+    <option key={cat.key} value={cat.id}>{cat.name}</option>
+  )
 })
 
 
@@ -52,18 +71,44 @@ function holdAnswer(id, question){
 setRenderTimes(old => old + 1)
 setQuestions(newArray)
   }
+
+useEffect(() => {
+
+  getCategories()
+
+},[])
+
+function getCategories(){
+
+  const catURL = `https://opentdb.com/api_category.php`
+  fetch(catURL)
+  .then(response => response.json())
+  .then(data => {
+    const newCatList = data.trivia_categories.map(cat =>{
+      return{
+        key: nanoid(),
+        id: cat.id,
+        name: cat.name
+      }
+    })
+    setCategoryList(newCatList)
+  })
+}
    
 
 useEffect(() => {
-  if (dataFetchedRef.current) return;
-      dataFetchedRef.current = true;
-      getQuestions()
+  if (isGameStart === true) {
+    if (dataFetchedRef.current) return;
+        dataFetchedRef.current = true;
+        getQuestions()
+  }
   
-  },[])
+  },[isGameStart])
 
 function getQuestions(){
-
-  fetch("https://opentdb.com/api.php?amount=5")
+  const URL = `https://opentdb.com/api.php?amount=${apiData.numPick}&category=${apiData.catPick}&difficulty=${apiData.diffPick}`
+  console.log(URL)
+  fetch(URL)
   .then(response => response.json())
   .then(data => {
     const newQustions = data.results.map(question => {
@@ -112,7 +157,7 @@ function finish(){
         numAnswersHeld ++
       }
     }
-    if(numAnswersHeld ===5){
+    if(numAnswersHeld == apiData.numPick){
       for (let i = 0; i < newArray.length; i++) {
         for(let k = 0; k < newArray[i].allAnswers.length; k++) {
           if (newArray[i].allAnswers[k].value === newArray[i].answer){
@@ -166,7 +211,7 @@ function finish(){
               id="scoreText"
               className="notVisible"
               >
-                {isAllAnswersHeld ? `You Scored ${correctAnswers}/5 correct answers` : `Please choose all answers`}
+                {isAllAnswersHeld ? `You Scored ${correctAnswers}/${apiData.numPick} correct answers` : `Please choose all answers`}
             </h4>
             <button
               className="finish_btn"
@@ -180,7 +225,23 @@ function finish(){
           <div className="frontPage">
           <h1 className="gameHeader">Quizical</h1>
           <h4 className="codedBy">Coded by Ido Strassberg</h4>
-          <button className="startQuizBtn" onClick={() => setGameStart(true)}>Start quiz</button>
+          <div className='pickers'>
+            <h5 className='lable'>Choose Difficulty</h5>
+            <select className="input" name="diffPick" value={apiData.diffPick} onChange={handleChange}>
+              <option value="">Any Difficulty</option>
+              <option value="easy">Easy</option>
+              <option value="medium">Medium</option>
+              <option value="hard">Hard</option>
+            </select>
+            <h5 className='lable'>Choose Category</h5>
+            <select className="input" name="catPick" value={apiData.catPick} onChange={handleChange}>
+            <option value="">Any Category</option>
+              {catEllements}
+            </select>
+            <h5 className='lable'>Choose the number of questions</h5>
+            <input className="input" type="number" name="numPick" value={apiData.numPick} onChange={handleChange}></input>
+          </div>
+          <button className="startQuizBtn" onClick={() => {setGameStart(true);setRenderTimes(old => old + 1)}}>Start quiz</button>
           </div>
       }
       </div>
